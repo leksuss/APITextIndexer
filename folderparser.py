@@ -97,7 +97,10 @@ def run(cli_args):
             total_words += res_words[1]['total_words']
     print(f"Found {len(res_file_list)} files with {total_words} total words.")
     print("Saving to MongoDB...")
-    dbcursor().files.drop()
+    colnames = dbcursor().list_collection_names()
+    if 'files' in colnames:
+        dbcursor().files.drop()
+    if 'words' in colnames:
+        dbcursor().words.drop()
     dbcursor().files.insert_many(res_file_list, ordered=False)
-    dbcursor().words.drop()
     dbcursor().words.insert_many(word_counted.values(), ordered=False)
