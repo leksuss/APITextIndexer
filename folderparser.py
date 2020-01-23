@@ -61,7 +61,6 @@ def get_words_from(file, word_counted):
     lang_mask = ''.join(get_lang_mask('patterns'))
     pattern = r'\b(?<![0-9]-)[' + lang_mask + '][-' + lang_mask + ']*'
     words = re.findall(pattern, res_file[1].lower())
-    uniq_words = 0
     for word in words:
         if word not in word_counted:
             word_counted[word] = {
@@ -71,14 +70,13 @@ def get_words_from(file, word_counted):
                 "vowel": count_chars(word, 'vowels'),
                 "consonant": count_chars(word, 'consonants'),
                 "files": {file['_id']: 1},
-                "syllables": [],
             }
-            uniq_words += 1
         else:
             word_counted[word]["count"] += 1
             word_counted[word]["files"][file['_id']] = \
                 word_counted[word]["files"].get(file['_id'], 0) + 1
-    return word_counted, {'total_words': len(words)}
+    return word_counted, {'total_words': len(words),
+                          'uniq_words': len(set(words))}
 
 
 def run(cli_args):

@@ -1,21 +1,15 @@
-
 try:
     import argparse
-    import pymongo
     from bson import ObjectId
     from flask import Flask
     from flask_restful import Api, Resource
     from werkzeug.routing import BaseConverter
 except ImportError:
-    print('You should install packages: argparse, pymongo, flask_restful')
+    exit('You should install packages: argparse, flask_restful')
 
-
+from dbhandler import dbcursor
 import responces
 import folderparser
-
-
-def dbcursor(database='data_storage'):
-    return pymongo.MongoClient()[database]
 
 
 class ObjectIDConverter(BaseConverter):
