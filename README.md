@@ -10,6 +10,7 @@
 ### Установка
 Для работы приложения необходимо установить следующие пакеты:
 `pip install argparse pymongo flask_restful chardet`
+
 либо установить зависимости из файла requirements.txt:
 `pip install -r requirements.txt`
 
