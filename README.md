@@ -8,10 +8,10 @@
  - пропускает файлы, если их содержимое не текстовое, даже если расширение говорит об обратном
 
 ### Установка
-Для работы приложения необходимо установить следующие пакеты:  
-`pip install argparse pymongo flask_restful chardet`  
-либо установить зависимости из файла requirements.txt:  
-`pip install -r requirements.txt`  
+Для работы приложения необходимо установить следующие пакеты:<br>
+`pip install argparse pymongo flask_restful chardet`<br>
+либо установить зависимости из файла requirements.txt:<br>
+`pip install -r requirements.txt`
 
 ### Запуск
 `python run.py`
