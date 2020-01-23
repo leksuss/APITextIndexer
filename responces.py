@@ -18,6 +18,21 @@ def global_files_stat(cursor):
     ])
 
 
+def global_filetypes_stat(cursor):
+    return cursor().files.aggregate([
+        {'$group': {
+            '_id': '$ext',
+            'count': {'$sum': 1},
+        }},
+        {'$project': {
+            '_id': '',
+            'ext': '$_id',
+            'count': '$count',
+        }},
+        {'$unset': "_id"}
+    ])
+
+
 def global_list_files(cursor):
     return cursor().files.aggregate([
         {'$project': {
@@ -218,25 +233,6 @@ def words_stat(cursor):
 
 def files_stat(cursor):
     files = list(global_files_stat(cursor))[0]
+    files['ext_stat'] = list(global_filetypes_stat(cursor))
     files['list_files'] = list(global_list_files(cursor))
     return files
-
-
-
-'''
-def word_stat(cursor, word):
-    word = cursor().words.aggregate([
-        {"$match": {'word': word}},
-        {"$project": {"arrayofkeyvalue": {"$objectToArray": "$files"}}},
-        {"$unwind": "$arrayofkeyvalue"},
-        {"$group": {"_id": "", "allfiles": {"$addToSet": "$arrayofkeyvalue.k"}}},
-        {"$lookup": {
-            "from": "files",
-            "localField": "allfiles",
-            "foreignField": "_id",
-            "as": "R"
-        }},
-        # {"$unwind": "$R"},
-        # {"$group": {"_id": "", "average_word_length": {"$avg": "$len"}}}
-    ])
-'''
